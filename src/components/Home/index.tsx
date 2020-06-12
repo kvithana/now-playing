@@ -27,19 +27,19 @@ const Home = (): JSX.Element => {
         .getPalette()
         .then((palette) => {
           if (palette.LightVibrant && palette.DarkMuted && palette.Vibrant && palette.LightMuted) {
-            const c = Color(palette.LightVibrant.hex);
+            let c = Color(palette.LightVibrant.hex);
             const t = Color(palette.DarkMuted.hex);
-            const d = Color(palette.LightMuted.hex);
+            let d = Color(palette.LightMuted.hex);
             const u = Color(palette.Vibrant.hex);
             if (c.contrast(t) < 4) {
-              //   c = c.lighten(0.4);
+              c = c.lighten(0.4);
             } else if (c.contrast(t) < 7) {
-              //   c = c.lighten(0.2);
+              c = c.lighten(0.2);
             }
             if (d.contrast(u) < 4) {
-              //   d = d.lighten(0.4);
+              d = d.lighten(0.4);
             } else if (d.contrast(u) < 7) {
-              //   d = d.lighten(0.2);
+              d = d.lighten(0.2);
             }
             setTextColor(t.hex());
             setAltTextColor(u.hex());
@@ -64,9 +64,17 @@ const Home = (): JSX.Element => {
   useEffect(() => {
     if (meanLoudness && currentFeatures) {
       if (currentFeatures.sections[0]?.loudness > meanLoudness) {
-        setSwap(true);
+        if (!swap) {
+          setSwap(true);
+        }
         //   console.log('peaking!');
       } else {
+        if (swap) {
+          setSwap(false);
+        }
+      }
+    } else {
+      if (swap) {
         setSwap(false);
       }
     }
@@ -94,22 +102,32 @@ const Home = (): JSX.Element => {
     <div style={{ backgroundColor: swap ? textColor : backgroundColor }} className="w-screen h-screen">
       <div
         style={{ backgroundColor: swap ? textColor : backgroundColor, transition: '5s' }}
-        className="w-full h-full flex"
+        className="w-full h-full flex flex-column justify-center items-center"
       >
         <AnimatePresence exitBeforeEnter={true}>
-          <motion.p
+          <motion.div
             key={currentTrack?.id}
-            initial={{ opacity: 0, y: 100 }}
+            initial={{ opacity: 0, y: 50 }}
             animate={{
               y: '0%',
               opacity: 1,
               transition,
             }}
-            exit={{ y: '50%', opacity: 0, transition }}
-            style={{ position: 'absolute', fontSize: '4em', color: swap ? backgroundColor : textColor }}
+            exit={{ y: '10%', opacity: 0, transition }}
+            style={{ height: '50px' }}
           >
-            {currentTrack ? currentTrack.name : null}
-          </motion.p>
+            <p
+              style={{
+                fontSize: '4em',
+                color: swap ? backgroundColor : textColor,
+                transition: '5s',
+                transform: swap ? 'scale(1.5)' : 'scale(1)',
+                textAlign: 'center',
+              }}
+            >
+              {currentTrack ? currentTrack.name : null}
+            </p>
+          </motion.div>
         </AnimatePresence>
       </div>
     </div>

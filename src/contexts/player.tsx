@@ -58,14 +58,17 @@ export const PlayerProvider = ({ children }: { children: React.ReactNode }): JSX
       setTrackAnalysis(null);
       let gotData = false;
       do {
-        await spotify.getAudioAnalysisForTrack(currentTrack?.id || '').then((analysis) => {
-          console.log(analysis);
-          gotData = true;
-          setTrackAnalysis(analysis as TrackAudioAnalysis);
-          const loudness = (analysis as TrackAudioAnalysis).sections.map((v) => v.loudness);
-          loudness.sort((a, b) => a - b);
-          setMeanLoudness(loudness[Math.floor(loudness.length / 2) + 1]);
-        });
+        await spotify
+          .getAudioAnalysisForTrack(currentTrack?.id || '')
+          .then((analysis) => {
+            console.log(analysis);
+            gotData = true;
+            setTrackAnalysis(analysis as TrackAudioAnalysis);
+            const loudness = (analysis as TrackAudioAnalysis).sections.map((v) => v.loudness);
+            loudness.sort((a, b) => a - b);
+            setMeanLoudness(loudness[Math.floor(loudness.length / 2) + 1]);
+          })
+          .catch(() => false);
       } while (!gotData);
     };
     if (currentTrack?.id) {
