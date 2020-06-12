@@ -91,9 +91,9 @@ const Home = (): JSX.Element => {
   }, [currentFeatures?.beats[0]]);
 
   return (
-    <div style={{ backgroundColor: swap ? altBackgroundColor : backgroundColor }} className="w-screen h-screen">
+    <div style={{ backgroundColor: swap ? textColor : backgroundColor }} className="w-screen h-screen">
       <div
-        style={{ backgroundColor: swap ? altBackgroundColor : backgroundColor, transition: '5s' }}
+        style={{ backgroundColor: swap ? textColor : backgroundColor, transition: '5s' }}
         className="w-full h-full flex"
       >
         <AnimatePresence exitBeforeEnter={true}>
@@ -106,7 +106,7 @@ const Home = (): JSX.Element => {
               transition,
             }}
             exit={{ y: '50%', opacity: 0, transition }}
-            style={{ position: 'absolute', fontSize: '4em', color: swap ? textColor : altTextColor }}
+            style={{ position: 'absolute', fontSize: '4em', color: swap ? backgroundColor : textColor }}
           >
             {currentTrack ? currentTrack.name : null}
           </motion.p>
