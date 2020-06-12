@@ -65,7 +65,7 @@ const Home = (): JSX.Element => {
     if (meanLoudness && currentFeatures) {
       if (currentFeatures.sections[0]?.loudness > meanLoudness) {
         setSwap(true);
-        console.log('peaking!');
+        //   console.log('peaking!');
       } else {
         setSwap(false);
       }
@@ -80,6 +80,15 @@ const Home = (): JSX.Element => {
       );
     }
   }, [currentFeatures?.bars[0]]);
+
+  useEffect(() => {
+    if (currentFeatures?.bars[0] && currentSeek) {
+      setTimeout(
+        () => console.log('BAP!'),
+        currentFeatures.beats[0].start + currentFeatures.beats[0].duration - currentSeek * 1000,
+      );
+    }
+  }, [currentFeatures?.beats[0]]);
 
   return (
     <div style={{ backgroundColor: swap ? altBackgroundColor : backgroundColor }} className="w-screen h-screen">

@@ -54,14 +54,22 @@ export const PlayerProvider = ({ children }: { children: React.ReactNode }): JSX
   }, [loggedIn]);
 
   useEffect(() => {
+    const getAnalysis = async () => {
+      setTrackAnalysis(null);
+      let gotData = false;
+      do {
+        await spotify.getAudioAnalysisForTrack(currentTrack?.id || '').then((analysis) => {
+          console.log(analysis);
+          gotData = true;
+          setTrackAnalysis(analysis as TrackAudioAnalysis);
+          const loudness = (analysis as TrackAudioAnalysis).sections.map((v) => v.loudness);
+          loudness.sort((a, b) => a - b);
+          setMeanLoudness(loudness[Math.floor(loudness.length / 2) + 1]);
+        });
+      } while (!gotData);
+    };
     if (currentTrack?.id) {
-      spotify.getAudioAnalysisForTrack(currentTrack.id).then((analysis) => {
-        console.log(analysis);
-        setTrackAnalysis(analysis as TrackAudioAnalysis);
-        const loudness = (analysis as TrackAudioAnalysis).sections.map((v) => v.loudness);
-        loudness.sort((a, b) => a - b);
-        setMeanLoudness(loudness[Math.floor(loudness.length / 2) + 1]);
-      });
+      getAnalysis();
     }
   }, [currentTrack?.id]);
 
@@ -73,7 +81,7 @@ export const PlayerProvider = ({ children }: { children: React.ReactNode }): JSX
         beats: trackAnalysis.beats.filter((b) => b.start <= _currentSeek && _currentSeek <= b.start + b.duration),
         sections: trackAnalysis.sections.filter((b) => b.start <= _currentSeek && _currentSeek <= b.start + b.duration),
         segments: trackAnalysis.segments.filter((b) => b.start <= _currentSeek && _currentSeek <= b.start + b.duration),
-        tatums: trackAnalysis.tatums.filter((b) => b.start <= _currentSeek && _currentSeek <= b.start + b.duration),
+        tatums: [], // remove for optimisation
       };
       setCurrentFeatures(currentFeatures);
       //   console.log(currentFeatures);
@@ -83,9 +91,9 @@ export const PlayerProvider = ({ children }: { children: React.ReactNode }): JSX
   useEffect(() => {
     const ref = setInterval(() => {
       if (currentSeekRef.current) {
-        _setCurrentSeek(currentSeekRef.current + 0.5);
+        _setCurrentSeek(currentSeekRef.current + 0.125);
       }
-    }, 500);
+    }, 125);
     return () => clearInterval(ref);
   }, [currentSeek]);
 
