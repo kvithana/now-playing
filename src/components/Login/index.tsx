@@ -19,7 +19,6 @@ const Login = (): JSX.Element | null => {
   }
   if (query.code && !actionRunning) {
     actionRunning = true;
-    console.log('reached.');
     authoriseUserCode(query.code as string)
       .then((res) => {
         const data: LoginStatus = {
