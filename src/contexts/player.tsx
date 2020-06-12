@@ -1,15 +1,18 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import Spotify from 'spotify-web-api-js';
 import { createLogger } from '../util/loggers';
 import { AuthContext } from './auth';
-import { isPlainObject } from 'lodash';
 
 export const PlayerContext = React.createContext<{
   currentTrack: SpotifyApi.TrackObjectFull | null;
   currentFeatures: TrackAudioAnalysis | null;
+  meanLoudness: number | null;
+  currentSeek: number | null;
 }>({
   currentTrack: null,
   currentFeatures: null,
+  meanLoudness: null,
+  currentSeek: null,
 });
 
 const spotify = new Spotify();
@@ -21,6 +24,11 @@ export const PlayerProvider = ({ children }: { children: React.ReactNode }): JSX
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [trackAnalysis, setTrackAnalysis] = useState<TrackAudioAnalysis | null>(null);
   const [currentFeatures, setCurrentFeatures] = useState<TrackAudioAnalysis | null>(null);
+  const [meanLoudness, setMeanLoudness] = useState<number | null>(null);
+  const [_currentSeek, _setCurrentSeek] = useState<null | number>(null);
+
+  const currentSeekRef = useRef(_currentSeek);
+  currentSeekRef.current = _currentSeek;
 
   useEffect(() => {
     if (loggedIn) {
@@ -36,6 +44,7 @@ export const PlayerProvider = ({ children }: { children: React.ReactNode }): JSX
           .then((s) => {
             setCurrentTrack(s.item);
             setCurrentSeek(s.progress_ms ? s.progress_ms / 1000 : null);
+            _setCurrentSeek(s.progress_ms ? s.progress_ms / 1000 : null);
             setIsPlaying(s.is_playing);
           })
           .catch((err) => console.error(err));
@@ -48,31 +57,45 @@ export const PlayerProvider = ({ children }: { children: React.ReactNode }): JSX
     if (currentTrack?.id) {
       spotify.getAudioAnalysisForTrack(currentTrack.id).then((analysis) => {
         console.log(analysis);
-        setTrackAnalysis(analysis);
+        setTrackAnalysis(analysis as TrackAudioAnalysis);
+        const loudness = (analysis as TrackAudioAnalysis).sections.map((v) => v.loudness);
+        loudness.sort((a, b) => a - b);
+        setMeanLoudness(loudness[Math.floor(loudness.length / 2) + 1]);
       });
     }
   }, [currentTrack?.id]);
 
   useEffect(() => {
-    if (isPlaying && trackAnalysis && currentSeek) {
-      console.log(currentSeek);
+    if (isPlaying && trackAnalysis && _currentSeek) {
+      //   console.log(_currentSeek);
       const currentFeatures: TrackAudioAnalysis = {
-        bars: trackAnalysis.bars.filter((b) => b.start <= currentSeek && currentSeek <= b.start + b.duration),
-        beats: trackAnalysis.beats.filter((b) => b.start <= currentSeek && currentSeek <= b.start + b.duration),
-        sections: trackAnalysis.sections.filter((b) => b.start <= currentSeek && currentSeek <= b.start + b.duration),
-        segments: trackAnalysis.segments.filter((b) => b.start <= currentSeek && currentSeek <= b.start + b.duration),
-        tatums: trackAnalysis.tatums.filter((b) => b.start <= currentSeek && currentSeek <= b.start + b.duration),
+        bars: trackAnalysis.bars.filter((b) => b.start <= _currentSeek && _currentSeek <= b.start + b.duration),
+        beats: trackAnalysis.beats.filter((b) => b.start <= _currentSeek && _currentSeek <= b.start + b.duration),
+        sections: trackAnalysis.sections.filter((b) => b.start <= _currentSeek && _currentSeek <= b.start + b.duration),
+        segments: trackAnalysis.segments.filter((b) => b.start <= _currentSeek && _currentSeek <= b.start + b.duration),
+        tatums: trackAnalysis.tatums.filter((b) => b.start <= _currentSeek && _currentSeek <= b.start + b.duration),
       };
       setCurrentFeatures(currentFeatures);
-      console.log(currentFeatures);
+      //   console.log(currentFeatures);
     }
-  }, [currentSeek, isPlaying, trackAnalysis]);
+  }, [_currentSeek, isPlaying, trackAnalysis]);
+
+  useEffect(() => {
+    const ref = setInterval(() => {
+      if (currentSeekRef.current) {
+        _setCurrentSeek(currentSeekRef.current + 0.5);
+      }
+    }, 500);
+    return () => clearInterval(ref);
+  }, [currentSeek]);
 
   return (
     <PlayerContext.Provider
       value={{
         currentTrack,
         currentFeatures,
+        meanLoudness,
+        currentSeek,
       }}
     >
       {children}

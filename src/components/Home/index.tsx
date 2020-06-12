@@ -6,13 +6,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { PlayerContext } from '../../contexts/player';
 
 const Home = (): JSX.Element => {
-  const { currentTrack } = useContext(PlayerContext);
+  const { currentTrack, meanLoudness, currentFeatures, currentSeek } = useContext(PlayerContext);
 
   const [swatchImageURL, setSwatchImageURL] = useState('');
   const [backgroundColor, setBackgroundColor] = useState('white');
   const [textColor, setTextColor] = useState('black');
   const [altTextColor, setAltTextColor] = useState('black');
   const [altBackgroundColor, setAltBackgroundColor] = useState('white');
+
+  const [swap, setSwap] = useState(false);
 
   const transition = {
     duration: 1,
@@ -59,9 +61,32 @@ const Home = (): JSX.Element => {
     }
   }, [currentTrack]);
 
+  useEffect(() => {
+    if (meanLoudness && currentFeatures) {
+      if (currentFeatures.sections[0]?.loudness > meanLoudness) {
+        setSwap(true);
+        console.log('peaking!');
+      } else {
+        setSwap(false);
+      }
+    }
+  }, [meanLoudness, currentFeatures]);
+
+  useEffect(() => {
+    if (currentFeatures?.bars[0] && currentSeek) {
+      setTimeout(
+        () => console.log('BOP!'),
+        currentFeatures.bars[0].start + currentFeatures.bars[0].duration - currentSeek * 1000,
+      );
+    }
+  }, [currentFeatures?.bars[0]]);
+
   return (
-    <div style={{ backgroundColor }} className="w-screen h-screen">
-      <div style={{ backgroundColor, transition: '5s' }} className="w-full h-full flex">
+    <div style={{ backgroundColor: swap ? altBackgroundColor : backgroundColor }} className="w-screen h-screen">
+      <div
+        style={{ backgroundColor: swap ? altBackgroundColor : backgroundColor, transition: '5s' }}
+        className="w-full h-full flex"
+      >
         <AnimatePresence exitBeforeEnter={true}>
           <motion.p
             key={currentTrack?.id}
@@ -72,7 +97,7 @@ const Home = (): JSX.Element => {
               transition,
             }}
             exit={{ y: '50%', opacity: 0, transition }}
-            style={{ position: 'absolute', fontSize: '4em', color: textColor }}
+            style={{ position: 'absolute', fontSize: '4em', color: swap ? textColor : altTextColor }}
           >
             {currentTrack ? currentTrack.name : null}
           </motion.p>
