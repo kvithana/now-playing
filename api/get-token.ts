@@ -1,5 +1,5 @@
 /**
- * Refresh or mint an
+ * Refresh or mint a new Spotify access token given a auth code.
  */
 
 import { NowRequest, NowResponse } from '@vercel/node';
@@ -23,11 +23,9 @@ export default async (req: NowRequest, res: NowResponse): Promise<void> => {
         }),
       )
       .catch((err) => {
-        res.statusCode = 500;
-        res.json({ message: internalServerError, info: err.toString() });
+        res.status(500).json({ message: internalServerError, info: err.toString() });
       });
     return;
   }
-  res.statusCode = 400;
-  res.json({ message: invalidParameters });
+  res.status(400).json({ message: invalidParameters });
 };

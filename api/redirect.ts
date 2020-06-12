@@ -24,10 +24,8 @@ export default (req: NowRequest, res: NowResponse): void => {
       OAUTH_SCOPES,
       (req.query?.state as string) || crypto.randomBytes(20).toString('hex'),
     );
-    res.statusCode = 200;
-    res.json({ success: true, url: redirectURL });
+    res.status(302).json({ url: redirectURL });
   } catch (err) {
-    res.statusCode = 500;
-    res.json({ success: false, message: internalServerError });
+    res.status(500).json({ success: false, message: internalServerError });
   }
 };
