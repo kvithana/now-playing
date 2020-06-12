@@ -34,6 +34,14 @@ export const PlayerProvider = ({ children }: { children: React.ReactNode }): JSX
       return () => clearInterval(ref);
     }
   }, [loggedIn]);
+
+  useEffect(() => {
+    if (currentTrack?.id) {
+      spotify.getAudioAnalysisForTrack(currentTrack.id).then((analysis) => {
+        console.log(analysis);
+      });
+    }
+  }, [currentTrack?.id]);
   return (
     <PlayerContext.Provider
       value={{
