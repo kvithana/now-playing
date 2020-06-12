@@ -10,7 +10,7 @@ import { invalidParameters, internalServerError } from './_consts/errors';
 const spotify = new SpotifyWebApi({
   clientId: process.env.SPOTIFY_CLIENT_ID,
   clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-  redirectUri: `${process.env.VERCEL_URL || 'http://localhost:3000'}/login`,
+  redirectUri: process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}/login` : 'http://localhost:3000/login',
 });
 
 export default async (req: NowRequest, res: NowResponse): Promise<void> => {
