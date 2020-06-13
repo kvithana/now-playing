@@ -62,6 +62,7 @@ const Home = (): JSX.Element => {
   }, [currentTrack]);
 
   useEffect(() => {
+    console.log('Section change');
     if (meanLoudness && currentFeatures) {
       if (currentFeatures.sections[0]?.loudness > meanLoudness) {
         if (!swap) {
@@ -78,7 +79,7 @@ const Home = (): JSX.Element => {
         setSwap(false);
       }
     }
-  }, [meanLoudness, currentFeatures]);
+  }, [meanLoudness, currentFeatures?.sections[0]]);
 
   useEffect(() => {
     if (currentFeatures?.bars[0] && currentSeek) {
@@ -98,11 +99,11 @@ const Home = (): JSX.Element => {
     }
   }, [currentFeatures?.beats[0]]);
 
-  useEffect(() => {
-    if (currentFeatures) {
-      console.log('Section change at ', currentFeatures.sections[0]);
-    }
-  }, [currentFeatures?.sections[0]]);
+  //useEffect(() => {
+  //  if (currentFeatures) {
+  //    console.log('Section change at ', currentFeatures.sections[0]);
+  //  }
+  //}, [currentFeatures?.sections[0]]);
 
   return (
     <div style={{ backgroundColor: swap ? textColor : backgroundColor }} className="w-screen h-screen">
