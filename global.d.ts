@@ -25,6 +25,13 @@ interface AnalysisSectionItem {
   tempo_confidence: number;
   time_signature: number;
   time_signature_confidence: number;
+  analysisItemDelta: AnalysisSectionItemDelta;
+}
+
+interface AnalysisSectionItemDelta {
+  loudness: number;
+  tempo: number;
+  time_signature: number;
 }
 
 interface AnalysisSegmentItem {

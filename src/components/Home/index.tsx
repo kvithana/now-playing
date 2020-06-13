@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { PlayerContext } from '../../contexts/player';
 
 const Home = (): JSX.Element => {
-  const { currentTrack, meanLoudness, currentFeatures, currentSeek } = useContext(PlayerContext);
+  const { currentTrack, meanLoudness, currentFeatures, currentSeek, meanLoudnessDelta } = useContext(PlayerContext);
 
   const [swatchImageURL, setSwatchImageURL] = useState('');
   const [backgroundColor, setBackgroundColor] = useState('white');
@@ -62,46 +62,59 @@ const Home = (): JSX.Element => {
   }, [currentTrack]);
 
   useEffect(() => {
-    console.log('Section change');
-    if (meanLoudness && currentFeatures) {
+    if (currentFeatures) {
+      console.log('Change in sections \n');
+      console.log(currentFeatures.sections[0].analysisItemDelta);
+    }
+
+    if (currentFeatures && meanLoudness) {
       if (currentFeatures.sections[0]?.loudness > meanLoudness) {
         if (!swap) {
           setSwap(true);
         }
         //   console.log('peaking!');
       } else {
-        if (swap) {
+        if (!swap) {
+          //A section changed, but loudness didn't go over mean loudness
+          setSwap(true);
+        } else {
           setSwap(false);
         }
       }
     } else {
-      if (swap) {
+      if (!swap) {
+        setSwap(false);
+      } else {
         setSwap(false);
       }
     }
-  }, [meanLoudness, currentFeatures?.sections[0]]);
+  }, [currentFeatures?.sections[0]]);
 
-  useEffect(() => {
-    if (currentFeatures?.bars[0] && currentSeek) {
-      setTimeout(
-        () => console.log('BOP!'),
-        currentFeatures.bars[0].start + currentFeatures.bars[0].duration - currentSeek * 1000,
-      );
-    }
-  }, [currentFeatures?.bars[0]]);
+  //useEffect(() => {
+  //  if (currentFeatures?.bars[0] && currentSeek) {
+  //    setTimeout(
+  //      () => console.log('BOP!'),
+  //      currentFeatures.bars[0].start + currentFeatures.bars[0].duration - currentSeek * 1000,
+  //    );
+  //  }
+  //}, [currentFeatures?.bars[0]]);
 
-  useEffect(() => {
-    if (currentFeatures?.bars[0] && currentSeek) {
-      setTimeout(
-        () => console.log('BAP!'),
-        currentFeatures.beats[0].start + currentFeatures.beats[0].duration - currentSeek * 1000,
-      );
-    }
-  }, [currentFeatures?.beats[0]]);
+  //useEffect(() => {
+  //  if (currentFeatures?.bars[0] && currentSeek) {
+  //    setTimeout(
+  //      () => console.log('BAP!'),
+  //      currentFeatures.beats[0].start + currentFeatures.beats[0].duration - currentSeek * 1000,
+  //    );
+  //  }
+  //}, [currentFeatures?.beats[0]]);
 
   //useEffect(() => {
   //  if (currentFeatures) {
   //    console.log('Section change at ', currentFeatures.sections[0]);
+  //    setHardSwap(true)
+  //    setTimeout(() => {
+  //      setHardSwap(false)
+  //    }, 100);
   //  }
   //}, [currentFeatures?.sections[0]]);
 

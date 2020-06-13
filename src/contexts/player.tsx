@@ -8,11 +8,13 @@ export const PlayerContext = React.createContext<{
   currentFeatures: TrackAudioAnalysis | null;
   meanLoudness: number | null;
   currentSeek: number | null;
+  meanLoudnessDelta: number | null;
 }>({
   currentTrack: null,
   currentFeatures: null,
   meanLoudness: null,
   currentSeek: null,
+  meanLoudnessDelta: null,
 });
 
 const spotify = new Spotify();
@@ -25,7 +27,8 @@ export const PlayerProvider = ({ children }: { children: React.ReactNode }): JSX
   const [trackAnalysis, setTrackAnalysis] = useState<TrackAudioAnalysis | null>(null);
   const [currentFeatures, setCurrentFeatures] = useState<TrackAudioAnalysis | null>(null);
   const [meanLoudness, setMeanLoudness] = useState<number | null>(null);
-  const [_currentSeek, _setCurrentSeek] = useState<null | number>(null);
+  const [_currentSeek, _setCurrentSeek] = useState<number | null>(null);
+  const [meanLoudnessDelta, setMeanLoudnessDelta] = useState<number | null>(null);
 
   const currentSeekRef = useRef(_currentSeek);
   currentSeekRef.current = _currentSeek;
@@ -63,7 +66,25 @@ export const PlayerProvider = ({ children }: { children: React.ReactNode }): JSX
           .then((analysis) => {
             console.log(analysis);
             gotData = true;
+
+            (analysis as TrackAudioAnalysis).sections.reduce(
+              (acc: AnalysisSectionItemDelta, v: AnalysisSectionItem) => {
+                v.analysisItemDelta = {
+                  loudness: v.loudness - acc.loudness,
+                  tempo: v.tempo - acc.tempo,
+                  time_signature: v.time_signature - acc.time_signature,
+                };
+
+                return { loudness: v.loudness, tempo: v.tempo, time_signature: v.time_signature };
+              },
+              { loudness: 0, tempo: 0, time_signature: 0 },
+            );
             setTrackAnalysis(analysis as TrackAudioAnalysis);
+
+            const loudnessDelta = (analysis as TrackAudioAnalysis).sections.map((v) => v.analysisItemDelta.loudness);
+            loudnessDelta.sort((a, b) => a - b);
+            setMeanLoudnessDelta(loudnessDelta[Math.floor(loudnessDelta.length / 2) + 1]);
+
             const loudness = (analysis as TrackAudioAnalysis).sections.map((v) => v.loudness);
             loudness.sort((a, b) => a - b);
             setMeanLoudness(loudness[Math.floor(loudness.length / 2) + 1]);
@@ -86,6 +107,7 @@ export const PlayerProvider = ({ children }: { children: React.ReactNode }): JSX
         segments: trackAnalysis.segments.filter((b) => b.start <= _currentSeek && _currentSeek <= b.start + b.duration),
         tatums: [], // remove for optimisation
       };
+
       setCurrentFeatures(currentFeatures);
       //   console.log(currentFeatures);
     }
@@ -107,6 +129,7 @@ export const PlayerProvider = ({ children }: { children: React.ReactNode }): JSX
         currentFeatures,
         meanLoudness,
         currentSeek,
+        meanLoudnessDelta,
       }}
     >
       {children}
