@@ -98,6 +98,12 @@ const Home = (): JSX.Element => {
     }
   }, [currentFeatures?.beats[0]]);
 
+  useEffect(() => {
+    if (currentFeatures) {
+      console.log('Section change at ', currentFeatures.sections[0]);
+    }
+  }, [currentFeatures?.sections[0]]);
+
   return (
     <div style={{ backgroundColor: swap ? textColor : backgroundColor }} className="w-screen h-screen">
       <div
