@@ -26,6 +26,7 @@ export const PlayerProvider = ({ children }: { children: React.ReactNode }): JSX
   const [currentFeatures, setCurrentFeatures] = useState<TrackAudioAnalysis | null>(null);
   const [meanLoudness, setMeanLoudness] = useState<number | null>(null);
   const [_currentSeek, _setCurrentSeek] = useState<null | number>(null);
+  const [currentSection, setCurrentSection] = useState<AnalysisSectionItem | null>(null);
 
   const currentSeekRef = useRef(_currentSeek);
   currentSeekRef.current = _currentSeek;
@@ -86,10 +87,17 @@ export const PlayerProvider = ({ children }: { children: React.ReactNode }): JSX
         segments: trackAnalysis.segments.filter((b) => b.start <= _currentSeek && _currentSeek <= b.start + b.duration),
         tatums: [], // remove for optimisation
       };
+      if (currentFeatures.sections[0].start != currentSection?.start) {
+        setCurrentSection(currentFeatures.sections[0]);
+      }
       setCurrentFeatures(currentFeatures);
       //   console.log(currentFeatures);
     }
   }, [_currentSeek, isPlaying, trackAnalysis]);
+
+  useEffect(() => {
+    console.log('Section change at ', currentSection?.start);
+  }, [currentSection]);
 
   useEffect(() => {
     const ref = setInterval(() => {
