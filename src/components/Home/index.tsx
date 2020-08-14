@@ -174,7 +174,8 @@ const Home = (): JSX.Element => {
             >
               <p
                 style={{
-                  fontSize: '4em',
+                  fontSize: '3em',
+                  maxWidth: '20ch',
                   color: swap ? backgroundColor : textColor,
                   transition: '5s',
                   transform: swap ? 'scale(1.5)' : 'scale(1)',
