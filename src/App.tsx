@@ -9,7 +9,7 @@ import Home from './components/Home';
 import { PlayerProvider } from './contexts/player';
 
 // initialise Firebase
-firebase.initializeApp(JSON.parse(atob(process.env.REACT_APP_FIREBASE_INIT as string)));
+// firebase.initializeApp(JSON.parse(atob(process.env.REACT_APP_FIREBASE_INIT as string)));
 
 const App = (): JSX.Element => {
   return (
