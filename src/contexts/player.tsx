@@ -77,7 +77,7 @@ export const PlayerProvider = ({ children }: { children: React.ReactNode }): JSX
 
                 return { loudness: v.loudness, tempo: v.tempo, time_signature: v.time_signature };
               },
-              { loudness: 0, tempo: 0, time_signature: 0 },
+              { loudness: 999, tempo: 0, time_signature: 0 },
             );
             setTrackAnalysis(analysis as TrackAudioAnalysis);
 

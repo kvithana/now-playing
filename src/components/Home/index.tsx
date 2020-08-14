@@ -63,7 +63,7 @@ const Home = (): JSX.Element => {
 
   useEffect(() => {
     if (currentTrack) {
-      if (currentTrack.album.images[0].url != swatchImageURL) {
+      if (currentTrack.album.images[0].url !== swatchImageURL) {
         setSwatchImageURL(currentTrack.album.images[0].url);
       }
     }
@@ -71,32 +71,23 @@ const Home = (): JSX.Element => {
 
   useEffect(() => {
     if (currentFeatures) {
-      console.log('Change in sections \n');
-      console.log(currentFeatures.sections[0]?.analysisItemDelta);
+      console.log('Change in sections');
+      console.log('delta', currentFeatures.sections[0]?.analysisItemDelta);
     }
 
-    if (currentFeatures && meanLoudness) {
+    if (meanLoudness && currentFeatures) {
       if (currentFeatures.sections[0]?.loudness > meanLoudness) {
         if (!swap) {
           setSwap(true);
         }
         //   console.log('peaking!');
       } else {
-        if (!swap) {
-          //A section changed, but loudness didn't go over mean loudness
-          setSwap(true);
-        } else {
+        if (swap) {
           setSwap(false);
         }
       }
-    } else {
-      if (!swap) {
-        setSwap(false);
-      } else {
-        setSwap(false);
-      }
     }
-  }, [currentFeatures?.sections[0]]);
+  }, [meanLoudness, currentFeatures?.sections[0]]);
 
   //useEffect(() => {
   //  if (currentFeatures?.bars[0] && currentSeek) {
@@ -156,7 +147,7 @@ const Home = (): JSX.Element => {
   return (
     <div style={{ backgroundColor: swap ? textColor : backgroundColor }} className="w-screen h-screen">
       <div
-        style={{ backgroundColor: swap ? textColor : backgroundColor, transition: '5s' }}
+        style={{ backgroundColor: swap ? altTextColor : backgroundColor, transition: '5s' }}
         className="w-full h-full flex flex-column justify-center items-center"
       >
         {currentTrack ? (
@@ -175,8 +166,8 @@ const Home = (): JSX.Element => {
               <p
                 style={{
                   fontSize: '3em',
-                  maxWidth: '20ch',
-                  color: swap ? backgroundColor : textColor,
+                  maxWidth: 'max(20ch, 60vw)',
+                  color: swap ? altBackgroundColor : textColor,
                   transition: '5s',
                   transform: swap ? 'scale(1.5)' : 'scale(1)',
                   textAlign: 'center',
