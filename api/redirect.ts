@@ -14,7 +14,7 @@ const OAUTH_SCOPES = ['user-read-email', 'user-read-playback-state', 'user-read-
 const spotify = new SpotifyWebApi({
   clientId: process.env.SPOTIFY_CLIENT_ID,
   clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-  redirectUri: process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}/login` : 'http://localhost:3000/login',
+  redirectUri: process.env.HOST_URL ? `https://${process.env.HOST_URL}/login` : 'http://localhost:3000/login',
 });
 
 export default (req: NowRequest, res: NowResponse): void => {

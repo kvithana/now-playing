@@ -56,6 +56,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
       logger('loaded previous login state from local storage.');
       setloading(false);
       setLoggedIn(true);
+      setCurrentUser('loggedIn');
       setAccessToken(loginStatus.accessToken);
       setLastRefresh(new Date(loginStatus.accessTokenRefreshedAt));
       setRefreshToken(loginStatus.refreshToken);

@@ -4,10 +4,13 @@ import Vibrant from 'node-vibrant';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import { PlayerContext } from '../../contexts/player';
+import { AuthContext } from '../../contexts/auth';
+import { useHistory } from 'react-router-dom';
 
 const Home = (): JSX.Element => {
   const { currentTrack, meanLoudness, currentFeatures, currentSeek } = useContext(PlayerContext);
-
+  const { currentUser } = useContext(AuthContext);
+  const history = useHistory();
   const [swatchImageURL, setSwatchImageURL] = useState('');
   const [backgroundColor, setBackgroundColor] = useState('white');
   const [textColor, setTextColor] = useState('black');
@@ -19,6 +22,10 @@ const Home = (): JSX.Element => {
   const transition = {
     duration: 1,
     ease: [0.43, 0.13, 0.23, 0.96],
+  };
+
+  const onLoginClick = () => {
+    history.push('/login');
   };
 
   useEffect(() => {
@@ -98,15 +105,68 @@ const Home = (): JSX.Element => {
     }
   }, [currentFeatures?.beats[0]]);
 
+  if (!currentUser) {
+    return (
+      <div style={{ backgroundColor: swap ? textColor : backgroundColor }} className="w-screen h-screen">
+        <div
+          style={{ backgroundColor: swap ? textColor : backgroundColor, transition: '5s' }}
+          className="w-full h-full flex flex-column justify-center items-center"
+        >
+          <motion.div
+            key="null"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{
+              y: '0%',
+              opacity: 1,
+              transition,
+            }}
+            exit={{ y: '10%', opacity: 0, transition }}
+            style={{ height: '50px' }}
+          >
+            <button onClick={onLoginClick} className="spotify-button">
+              Log In To Start Visualising
+            </button>
+          </motion.div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div style={{ backgroundColor: swap ? textColor : backgroundColor }} className="w-screen h-screen">
       <div
         style={{ backgroundColor: swap ? textColor : backgroundColor, transition: '5s' }}
         className="w-full h-full flex flex-column justify-center items-center"
       >
-        <AnimatePresence exitBeforeEnter={true}>
+        {currentTrack ? (
+          <AnimatePresence exitBeforeEnter={true}>
+            <motion.div
+              key={currentTrack?.id}
+              initial={{ opacity: 0, y: 50 }}
+              animate={{
+                y: '0%',
+                opacity: 1,
+                transition,
+              }}
+              exit={{ y: '10%', opacity: 0, transition }}
+              style={{ height: '50px' }}
+            >
+              <p
+                style={{
+                  fontSize: '4em',
+                  color: swap ? backgroundColor : textColor,
+                  transition: '5s',
+                  transform: swap ? 'scale(1.5)' : 'scale(1)',
+                  textAlign: 'center',
+                }}
+              >
+                {currentTrack ? currentTrack.name : null}
+              </p>
+            </motion.div>
+          </AnimatePresence>
+        ) : (
           <motion.div
-            key={currentTrack?.id}
+            key="null"
             initial={{ opacity: 0, y: 50 }}
             animate={{
               y: '0%',
@@ -118,17 +178,17 @@ const Home = (): JSX.Element => {
           >
             <p
               style={{
-                fontSize: '4em',
+                fontSize: '1em',
                 color: swap ? backgroundColor : textColor,
                 transition: '5s',
                 transform: swap ? 'scale(1.5)' : 'scale(1)',
                 textAlign: 'center',
               }}
             >
-              {currentTrack ? currentTrack.name : null}
+              Connected to Spotify 🎵
             </p>
           </motion.div>
-        </AnimatePresence>
+        )}
       </div>
     </div>
   );

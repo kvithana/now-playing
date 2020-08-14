@@ -3,8 +3,14 @@ import qs from 'query-string';
 import { useLocation, useHistory } from 'react-router-dom';
 import { getLoginRedirect, authoriseUserCode } from '../../api';
 import { AuthContext } from '../../contexts/auth';
+import { motion } from 'framer-motion';
 
 let actionRunning = false;
+
+const transition = {
+  duration: 1,
+  ease: [0.43, 0.13, 0.23, 0.96],
+};
 
 const Login = (): JSX.Element | null => {
   const location = useLocation();
@@ -34,7 +40,21 @@ const Login = (): JSX.Element | null => {
       })
       .catch(() => history.push('/login'));
   }
-  return <div>Logging in...</div>;
+  return (
+    <div className="w-screen h-screen flex justify-center items-center text-lg">
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{
+          y: '0%',
+          opacity: 1,
+          transition,
+        }}
+        style={{ height: '50px' }}
+      >
+        Hi, Spotify 👋...
+      </motion.div>
+    </div>
+  );
 };
 
 export default Login;
