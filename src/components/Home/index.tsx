@@ -72,7 +72,7 @@ const Home = (): JSX.Element => {
   useEffect(() => {
     if (currentFeatures) {
       console.log('Change in sections \n');
-      console.log(currentFeatures.sections[0].analysisItemDelta);
+      console.log(currentFeatures.sections[0]?.analysisItemDelta);
     }
 
     if (currentFeatures && meanLoudness) {
