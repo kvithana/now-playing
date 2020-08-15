@@ -125,10 +125,11 @@ const Home = (): JSX.Element => {
       <div style={{ backgroundColor: swap ? textColor : backgroundColor }} className="w-screen h-screen">
         <div
           style={{ backgroundColor: swap ? textColor : backgroundColor, transition: '5s' }}
-          className="w-full h-full flex flex-column justify-center items-center"
+          className="w-full h-full flex flex-col justify-center items-center"
         >
           <motion.div
             key="null"
+            className="flex flex-col justify-center items-center"
             initial={{ opacity: 0, y: 50 }}
             animate={{
               y: '0%',
@@ -138,11 +139,51 @@ const Home = (): JSX.Element => {
             exit={{ y: '10%', opacity: 0, transition }}
             style={{ height: '50px' }}
           >
+            <div className="text-center p-5" style={{ maxWidth: '500px' }}>
+              <p className="mb-5">
+                This is a simple web-app to visualise your currently playing track on Spotify with pretty colours based
+                off the album images.
+              </p>
+              <p className="mb-5">It&apos;s a nice screensaver to have up at a party or while studying 🤓.</p>
+              <p className="">Designed for Tablet or Desktop 💻.</p>
+            </div>
             <button onClick={onLoginClick} className="spotify-button">
-              Log In To Start Visualising
+              Connect Spotify
             </button>
+            <div className="text-center text-gray-500">
+              <p className="mb-2">
+                Powered by the{' '}
+                <a
+                  className="border-b text-gray-500"
+                  href="https://developer.spotify.com/documentation/web-api/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Spotify API
+                </a>
+                .
+              </p>
+              <a
+                className="text-gray-500 border-b m-2"
+                href="https://github.com/kvithana/now-playing"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Github
+              </a>{' '}
+              |{' '}
+              <a
+                className="text-gray-500 border-b m-2"
+                href="https://twitter.com/_kalpal"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Twitter
+              </a>
+            </div>
           </motion.div>
         </div>
+        <Footer color={swap ? backgroundColor : textColor} />
       </div>
     )
   }
