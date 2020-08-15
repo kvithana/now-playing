@@ -98,9 +98,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
     if (lastRefresh && refreshToken) {
       const ref = setInterval(() => {
         logger('checking access token.')
-        if (lastRefresh.getUTCMinutes() - new Date().getTime() / 1e3 / 60 / 60 > 45) {
-          _refreshAccessToken()
-        }
+        _checkAccessToken()
       }, 60 * 1e3)
       return () => clearInterval(ref)
     }
