@@ -1,33 +1,36 @@
-import React, { useContext, useState, useEffect } from 'react';
-import Color from 'color';
-import Vibrant from 'node-vibrant';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useContext, useState, useEffect } from 'react'
+import Color from 'color'
+import Vibrant from 'node-vibrant'
+import { motion, AnimatePresence } from 'framer-motion'
 
-import { PlayerContext } from '../../contexts/player';
-import { AuthContext } from '../../contexts/auth';
-import { useHistory } from 'react-router-dom';
+import { PlayerContext } from '../../contexts/player'
+import { AuthContext } from '../../contexts/auth'
+import { useHistory } from 'react-router-dom'
+import AlbumPreview from '../AlbumPreview'
+import TrackInfo from '../TrackInfo'
+import Footer from '../RightFooter'
 
 const Home = (): JSX.Element => {
-  const { currentTrack, meanLoudness, currentFeatures, currentSeek, meanLoudnessDelta } = useContext(PlayerContext);
+  const { currentTrack, meanLoudness, currentFeatures, currentSeek, meanLoudnessDelta } = useContext(PlayerContext)
 
-  const { currentUser } = useContext(AuthContext);
-  const history = useHistory();
-  const [swatchImageURL, setSwatchImageURL] = useState('');
-  const [backgroundColor, setBackgroundColor] = useState('white');
-  const [textColor, setTextColor] = useState('black');
-  const [altTextColor, setAltTextColor] = useState('black');
-  const [altBackgroundColor, setAltBackgroundColor] = useState('white');
+  const { currentUser } = useContext(AuthContext)
+  const history = useHistory()
+  const [swatchImageURL, setSwatchImageURL] = useState('')
+  const [backgroundColor, setBackgroundColor] = useState('white')
+  const [textColor, setTextColor] = useState('black')
+  const [altTextColor, setAltTextColor] = useState('black')
+  const [altBackgroundColor, setAltBackgroundColor] = useState('white')
 
-  const [swap, setSwap] = useState(false);
+  const [swap, setSwap] = useState(false)
 
   const transition = {
     duration: 1,
     ease: [0.43, 0.13, 0.23, 0.96],
-  };
+  }
 
   const onLoginClick = () => {
-    history.push('/login');
-  };
+    history.push('/login')
+  }
 
   useEffect(() => {
     const setColors = async (image: string) => {
@@ -35,59 +38,59 @@ const Home = (): JSX.Element => {
         .getPalette()
         .then((palette) => {
           if (palette.LightVibrant && palette.DarkMuted && palette.Vibrant && palette.LightMuted) {
-            let c = Color(palette.LightVibrant.hex);
-            const t = Color(palette.DarkMuted.hex);
-            let d = Color(palette.LightMuted.hex);
-            const u = Color(palette.Vibrant.hex);
+            let c = Color(palette.LightVibrant.hex)
+            const t = Color(palette.DarkMuted.hex)
+            let d = Color(palette.LightMuted.hex)
+            const u = Color(palette.Vibrant.hex)
             if (c.contrast(t) < 4) {
-              c = c.lighten(0.4);
+              c = c.lighten(0.4)
             } else if (c.contrast(t) < 7) {
-              c = c.lighten(0.2);
+              c = c.lighten(0.2)
             }
             if (d.contrast(u) < 4) {
-              d = d.lighten(0.4);
+              d = d.lighten(0.4)
             } else if (d.contrast(u) < 7) {
-              d = d.lighten(0.2);
+              d = d.lighten(0.2)
             }
-            setTextColor(t.hex());
-            setAltTextColor(u.hex());
-            setAltBackgroundColor(d.hex());
-            setBackgroundColor(c.hex());
+            setTextColor(t.hex())
+            setAltTextColor(u.hex())
+            setAltBackgroundColor(d.hex())
+            setBackgroundColor(c.hex())
           }
-        });
-    };
-    if (swatchImageURL !== '') {
-      setColors(swatchImageURL);
+        })
     }
-  }, [swatchImageURL]);
+    if (swatchImageURL !== '') {
+      setColors(swatchImageURL)
+    }
+  }, [swatchImageURL])
 
   useEffect(() => {
     if (currentTrack) {
       if (currentTrack.album.images[0].url !== swatchImageURL) {
-        setSwatchImageURL(currentTrack.album.images[0].url);
+        setSwatchImageURL(currentTrack.album.images[0].url)
       }
     }
-  }, [currentTrack]);
+  }, [currentTrack])
 
   useEffect(() => {
     if (currentFeatures) {
-      console.log('Change in sections');
-      console.log('delta', currentFeatures.sections[0]?.analysisItemDelta);
+      console.log('Change in sections')
+      console.log('delta', currentFeatures.sections[0]?.analysisItemDelta)
     }
 
     if (meanLoudness && currentFeatures) {
       if (currentFeatures.sections[0]?.loudness > meanLoudness) {
         if (!swap) {
-          setSwap(true);
+          setSwap(true)
         }
         //   console.log('peaking!');
       } else {
         if (swap) {
-          setSwap(false);
+          setSwap(false)
         }
       }
     }
-  }, [meanLoudness, currentFeatures?.sections[0]]);
+  }, [meanLoudness, currentFeatures?.sections[0]])
 
   //useEffect(() => {
   //  if (currentFeatures?.bars[0] && currentSeek) {
@@ -141,7 +144,7 @@ const Home = (): JSX.Element => {
           </motion.div>
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -150,34 +153,7 @@ const Home = (): JSX.Element => {
         style={{ backgroundColor: swap ? altTextColor : backgroundColor, transition: '5s' }}
         className="w-full h-full flex flex-column justify-center items-center"
       >
-        {currentTrack ? (
-          <AnimatePresence exitBeforeEnter={true}>
-            <motion.div
-              key={currentTrack?.id}
-              initial={{ opacity: 0, y: 50 }}
-              animate={{
-                y: '0%',
-                opacity: 1,
-                transition,
-              }}
-              exit={{ y: '10%', opacity: 0, transition }}
-              style={{ height: '50px' }}
-            >
-              <p
-                style={{
-                  fontSize: '3em',
-                  maxWidth: 'max(20ch, 60vw)',
-                  color: swap ? altBackgroundColor : textColor,
-                  transition: '5s',
-                  transform: swap ? 'scale(1.5)' : 'scale(1)',
-                  textAlign: 'center',
-                }}
-              >
-                {currentTrack ? currentTrack.name : null}
-              </p>
-            </motion.div>
-          </AnimatePresence>
-        ) : (
+        {currentTrack ? null : (
           <motion.div
             key="null"
             initial={{ opacity: 0, y: 50 }}
@@ -202,9 +178,30 @@ const Home = (): JSX.Element => {
             </p>
           </motion.div>
         )}
+        <AnimatePresence exitBeforeEnter={true}>
+          {currentTrack ? (
+            <AlbumPreview
+              currentTrack={currentTrack}
+              swap={swap}
+              altBackgroundColor={altBackgroundColor}
+              textColor={textColor}
+            />
+          ) : null}
+        </AnimatePresence>
+        <AnimatePresence exitBeforeEnter={true}>
+          {currentTrack ? (
+            <TrackInfo
+              currentTrack={currentTrack}
+              swap={swap}
+              altBackgroundColor={altBackgroundColor}
+              textColor={textColor}
+            />
+          ) : null}
+        </AnimatePresence>
+        <Footer color={swap ? backgroundColor : textColor} />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home

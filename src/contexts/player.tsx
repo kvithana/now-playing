@@ -1,43 +1,42 @@
-import React, { useEffect, useState, useContext, useRef } from 'react';
-import Spotify from 'spotify-web-api-js';
-import { createLogger } from '../util/loggers';
-import { AuthContext } from './auth';
+import React, { useEffect, useState, useContext, useRef } from 'react'
+import Spotify from 'spotify-web-api-js'
+import { AuthContext } from './auth'
 
 export const PlayerContext = React.createContext<{
-  currentTrack: SpotifyApi.TrackObjectFull | null;
-  currentFeatures: TrackAudioAnalysis | null;
-  meanLoudness: number | null;
-  currentSeek: number | null;
-  meanLoudnessDelta: number | null;
+  currentTrack: SpotifyApi.TrackObjectFull | null
+  currentFeatures: TrackAudioAnalysis | null
+  meanLoudness: number | null
+  currentSeek: number | null
+  meanLoudnessDelta: number | null
 }>({
   currentTrack: null,
   currentFeatures: null,
   meanLoudness: null,
   currentSeek: null,
   meanLoudnessDelta: null,
-});
+})
 
-const spotify = new Spotify();
+const spotify = new Spotify()
 
 export const PlayerProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
-  const { accessToken, loggedIn } = useContext(AuthContext);
-  const [currentTrack, setCurrentTrack] = useState<SpotifyApi.TrackObjectFull | null>(null);
-  const [currentSeek, setCurrentSeek] = useState<null | number>(null);
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
-  const [trackAnalysis, setTrackAnalysis] = useState<TrackAudioAnalysis | null>(null);
-  const [currentFeatures, setCurrentFeatures] = useState<TrackAudioAnalysis | null>(null);
-  const [meanLoudness, setMeanLoudness] = useState<number | null>(null);
-  const [_currentSeek, _setCurrentSeek] = useState<number | null>(null);
-  const [meanLoudnessDelta, setMeanLoudnessDelta] = useState<number | null>(null);
+  const { accessToken, loggedIn } = useContext(AuthContext)
+  const [currentTrack, setCurrentTrack] = useState<SpotifyApi.TrackObjectFull | null>(null)
+  const [currentSeek, setCurrentSeek] = useState<null | number>(null)
+  const [isPlaying, setIsPlaying] = useState<boolean>(false)
+  const [trackAnalysis, setTrackAnalysis] = useState<TrackAudioAnalysis | null>(null)
+  const [currentFeatures, setCurrentFeatures] = useState<TrackAudioAnalysis | null>(null)
+  const [meanLoudness, setMeanLoudness] = useState<number | null>(null)
+  const [_currentSeek, _setCurrentSeek] = useState<number | null>(null)
+  const [meanLoudnessDelta, setMeanLoudnessDelta] = useState<number | null>(null)
 
-  const currentSeekRef = useRef(_currentSeek);
-  currentSeekRef.current = _currentSeek;
+  const currentSeekRef = useRef(_currentSeek)
+  currentSeekRef.current = _currentSeek
 
   useEffect(() => {
     if (loggedIn) {
-      spotify.setAccessToken(accessToken);
+      spotify.setAccessToken(accessToken)
     }
-  }, [accessToken, loggedIn]);
+  }, [accessToken, loggedIn])
 
   useEffect(() => {
     if (loggedIn) {
@@ -45,57 +44,57 @@ export const PlayerProvider = ({ children }: { children: React.ReactNode }): JSX
         spotify
           .getMyCurrentPlaybackState()
           .then((s) => {
-            setCurrentTrack(s.item);
-            setCurrentSeek(s.progress_ms ? s.progress_ms / 1000 : null);
-            _setCurrentSeek(s.progress_ms ? s.progress_ms / 1000 : null);
-            setIsPlaying(s.is_playing);
+            setCurrentTrack(s.item)
+            setCurrentSeek(s.progress_ms ? s.progress_ms / 1000 : null)
+            _setCurrentSeek(s.progress_ms ? s.progress_ms / 1000 : null)
+            setIsPlaying(s.is_playing)
           })
-          .catch((err) => console.error(err));
-      }, 1e3);
-      return () => clearInterval(ref);
+          .catch((err) => console.error(err))
+      }, 1e3)
+      return () => clearInterval(ref)
     }
-  }, [loggedIn]);
+  }, [loggedIn])
 
   useEffect(() => {
     const getAnalysis = async () => {
-      setTrackAnalysis(null);
-      let gotData = false;
+      setTrackAnalysis(null)
+      setCurrentFeatures(null)
+      let gotData = false
       do {
         await spotify
           .getAudioAnalysisForTrack(currentTrack?.id || '')
           .then((analysis) => {
-            console.log(analysis);
-            gotData = true;
-
-            (analysis as TrackAudioAnalysis).sections.reduce(
+            console.log(analysis)
+            gotData = true
+            ;(analysis as TrackAudioAnalysis).sections.reduce(
               (acc: AnalysisSectionItemDelta, v: AnalysisSectionItem) => {
                 v.analysisItemDelta = {
                   loudness: v.loudness - acc.loudness,
                   tempo: v.tempo - acc.tempo,
                   time_signature: v.time_signature - acc.time_signature,
-                };
+                }
 
-                return { loudness: v.loudness, tempo: v.tempo, time_signature: v.time_signature };
+                return { loudness: v.loudness, tempo: v.tempo, time_signature: v.time_signature }
               },
               { loudness: 999, tempo: 0, time_signature: 0 },
-            );
-            setTrackAnalysis(analysis as TrackAudioAnalysis);
+            )
+            setTrackAnalysis(analysis as TrackAudioAnalysis)
 
-            const loudnessDelta = (analysis as TrackAudioAnalysis).sections.map((v) => v.analysisItemDelta.loudness);
-            loudnessDelta.sort((a, b) => a - b);
-            setMeanLoudnessDelta(loudnessDelta[Math.floor(loudnessDelta.length / 2) + 1]);
+            const loudnessDelta = (analysis as TrackAudioAnalysis).sections.map((v) => v.analysisItemDelta.loudness)
+            loudnessDelta.sort((a, b) => a - b)
+            setMeanLoudnessDelta(loudnessDelta[Math.floor(loudnessDelta.length / 2) + 1])
 
-            const loudness = (analysis as TrackAudioAnalysis).sections.map((v) => v.loudness);
-            loudness.sort((a, b) => a - b);
-            setMeanLoudness(loudness[Math.floor(loudness.length / 2) + 1]);
+            const loudness = (analysis as TrackAudioAnalysis).sections.map((v) => v.loudness)
+            loudness.sort((a, b) => a - b)
+            setMeanLoudness(loudness[Math.floor(loudness.length / 2) + 1])
           })
-          .catch(() => false);
-      } while (!gotData);
-    };
-    if (currentTrack?.id) {
-      getAnalysis();
+          .catch(() => false)
+      } while (!gotData)
     }
-  }, [currentTrack?.id]);
+    if (currentTrack?.id) {
+      getAnalysis()
+    }
+  }, [currentTrack?.id])
 
   useEffect(() => {
     if (isPlaying && trackAnalysis && _currentSeek) {
@@ -106,21 +105,21 @@ export const PlayerProvider = ({ children }: { children: React.ReactNode }): JSX
         sections: trackAnalysis.sections.filter((b) => b.start <= _currentSeek && _currentSeek <= b.start + b.duration),
         segments: trackAnalysis.segments.filter((b) => b.start <= _currentSeek && _currentSeek <= b.start + b.duration),
         tatums: [], // remove for optimisation
-      };
+      }
 
-      setCurrentFeatures(currentFeatures);
+      setCurrentFeatures(currentFeatures)
       //   console.log(currentFeatures);
     }
-  }, [_currentSeek, isPlaying, trackAnalysis]);
+  }, [_currentSeek, isPlaying, trackAnalysis])
 
   useEffect(() => {
     const ref = setInterval(() => {
       if (currentSeekRef.current) {
-        _setCurrentSeek(currentSeekRef.current + 0.125);
+        _setCurrentSeek(currentSeekRef.current + 0.125)
       }
-    }, 125);
-    return () => clearInterval(ref);
-  }, [currentSeek]);
+    }, 125)
+    return () => clearInterval(ref)
+  }, [currentSeek])
 
   return (
     <PlayerContext.Provider
@@ -134,5 +133,5 @@ export const PlayerProvider = ({ children }: { children: React.ReactNode }): JSX
     >
       {children}
     </PlayerContext.Provider>
-  );
-};
+  )
+}
