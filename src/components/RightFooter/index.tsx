@@ -20,6 +20,10 @@ const Footer = ({ color }: { color: string }): JSX.Element => {
     window.open('https://github.com/kvithana/now-playing', '_blank')
   }
 
+  const toTwitter = () => {
+    window.open('https://twitter.com/_kalpal', '_blank')
+  }
+
   useEffect(() => {
     if (!featuresExist) {
       setLoading(true)
@@ -50,7 +54,14 @@ const Footer = ({ color }: { color: string }): JSX.Element => {
       <img
         height="25"
         width="25"
-        className="ml-4 cursor-pointer opacity-25 hover:opacity-100"
+        className="ml-2 cursor-pointer opacity-25 hover:opacity-100"
+        src="https://unpkg.com/simple-icons@v3/icons/twitter.svg"
+        onClick={toTwitter}
+      />
+      <img
+        height="25"
+        width="25"
+        className="ml-2 cursor-pointer opacity-25 hover:opacity-100"
         src="https://unpkg.com/simple-icons@v3/icons/github.svg"
         onClick={toGithub}
       />
