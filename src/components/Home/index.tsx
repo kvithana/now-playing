@@ -204,7 +204,6 @@ const Home = (): JSX.Element => {
               transition,
             }}
             exit={{ y: '10%', opacity: 0, transition }}
-            style={{ height: '50px' }}
           >
             <p
               style={{

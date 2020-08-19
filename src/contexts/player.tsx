@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext, useRef } from 'react'
 import Spotify from 'spotify-web-api-js'
 import { AuthContext } from './auth'
+import { analyseChoruses } from '../libs/SpotifyChorusAnalysis'
 
 export const PlayerContext = React.createContext<{
   currentTrack: SpotifyApi.TrackObjectFull | null
@@ -105,12 +106,19 @@ export const PlayerProvider = ({ children }: { children: React.ReactNode }): JSX
         sections: trackAnalysis.sections.filter((b) => b.start <= _currentSeek && _currentSeek <= b.start + b.duration),
         segments: trackAnalysis.segments.filter((b) => b.start <= _currentSeek && _currentSeek <= b.start + b.duration),
         tatums: [], // remove for optimisation
+        track: trackAnalysis.track as AnalysisTrackItem,
       }
 
       setCurrentFeatures(currentFeatures)
       //   console.log(currentFeatures);
     }
   }, [_currentSeek, isPlaying, trackAnalysis])
+
+  // useEffect(() => {
+  //   if (trackAnalysis) {
+  //     analyseChoruses(trackAnalysis)
+  //   }
+  // }, [trackAnalysis])
 
   useEffect(() => {
     const ref = setInterval(() => {
