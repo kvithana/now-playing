@@ -34,7 +34,7 @@ const TrackInfo = ({
   }, [display, imageURL])
 
   useEffect(() => {
-    if (currentSeek && currentSeek > (currentTrack.duration_ms - 5e3) / 1e3) {
+    if (currentSeek && currentSeek > (currentTrack.duration_ms - 10e3) / 1e3) {
       setHide(true)
     }
   }, [currentSeek])

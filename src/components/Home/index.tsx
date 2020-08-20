@@ -43,15 +43,16 @@ const Home = (): JSX.Element => {
             let d = Color(palette.LightMuted.hex)
             const u = Color(palette.Vibrant.hex)
             if (c.contrast(t) < 4) {
-              c = c.lighten(0.4)
+              c = c.lighten(2)
             } else if (c.contrast(t) < 7) {
-              c = c.lighten(0.2)
+              c = c.lighten(1)
             }
             if (d.contrast(u) < 4) {
-              d = d.lighten(0.4)
+              d = d.lighten(3)
             } else if (d.contrast(u) < 7) {
-              d = d.lighten(0.2)
+              d = d.lighten(1)
             }
+            console.log(d.contrast(u))
             setTextColor(t.hex())
             setAltTextColor(u.hex())
             setAltBackgroundColor(d.hex())
