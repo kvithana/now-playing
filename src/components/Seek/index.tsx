@@ -28,7 +28,7 @@ const Seek = ({
 
   return (
     <motion.div
-      className="absolute top-0 left-0 p-2 text-3xl z-50"
+      className="absolute top-0 left-0 p-2 text-3xl z-50 cursor-default select-none"
       initial={{ opacity: 0, x: '-150%' }}
       animate={{
         x: '0%',

@@ -41,7 +41,7 @@ const AlbumPreview = ({
   }, [imageURL])
 
   return (
-    <div className="absolute flex-row z-50">
+    <div className="absolute flex-row z-50 cursor-default select-none">
       <AnimatePresence exitBeforeEnter={true}>
         {display ? (
           <motion.div

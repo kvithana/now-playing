@@ -66,7 +66,10 @@ const TrackInfo = ({
   }, [imageURL])
 
   return (
-    <div className="absolute flex-row opacity-50 z-50" style={{ bottom: '10px', left: '10px' }}>
+    <div
+      className="absolute flex-row opacity-50 z-50 cursor-default select-none"
+      style={{ bottom: '10px', left: '10px' }}
+    >
       <AnimatePresence exitBeforeEnter={true}>
         {hide ? null : display ? (
           <motion.div
