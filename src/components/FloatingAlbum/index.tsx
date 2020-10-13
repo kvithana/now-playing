@@ -14,7 +14,7 @@ const FloatingAlbum = ({ image }: { image: string }): React.ReactElement => {
       <motion.div
         key={image}
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.3, transition }}
+        animate={{ opacity: 0.25, transition }}
         exit={{ opacity: 0, transition }}
         className="absolute flex items-center justify-center w-screen h-screen floating-album"
       >

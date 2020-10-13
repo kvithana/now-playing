@@ -67,7 +67,6 @@ const AlbumPreview = ({
               transition,
             }}
             exit={{ y: '10%', opacity: 0, transition }}
-            style={{ height: '50px' }}
           >
             <p
               style={{

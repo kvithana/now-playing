@@ -219,7 +219,7 @@ const Home = (): JSX.Element => {
               }}
               className="text-2xl bg-opacity-50"
             >
-              Play ▶
+              Play Something ▶
             </p>
           </motion.div>
         )}
