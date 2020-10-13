@@ -66,7 +66,7 @@ const TrackInfo = ({
   }, [imageURL])
 
   return (
-    <div className="absolute flex-row" style={{ bottom: '10px', left: '10px' }}>
+    <div className="absolute flex-row opacity-50" style={{ bottom: '10px', left: '10px' }}>
       <AnimatePresence exitBeforeEnter={true}>
         {hide ? null : display ? (
           <motion.div
@@ -74,11 +74,11 @@ const TrackInfo = ({
             initial={{ opacity: 0, x: '-150%' }}
             animate={{
               x: '0%',
-              opacity: 1,
+              opacity: 50,
               transition,
             }}
             exit={{ x: '-150%', opacity: 0, transition }}
-            className="rounded-md"
+            className="rounded-md opacity-50"
             style={{
               color: swap ? altBackgroundColor : textColor,
             }}
@@ -93,11 +93,11 @@ const TrackInfo = ({
             initial={{ opacity: 0, x: '-150%' }}
             animate={{
               x: '0%',
-              opacity: 1,
+              opacity: 50,
               transition,
             }}
             exit={{ x: '-150%', opacity: 0, transition }}
-            className="rounded-md"
+            className="text-3xl opacity-50"
             style={{
               color: swap ? altBackgroundColor : textColor,
             }}

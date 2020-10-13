@@ -1,0 +1,22 @@
+.floating-album {
+    overflow: hidden;
+}
+
+.floating-album img {
+    opacity: 0.2;
+    filter: blur(20px);
+    transform: scale(8) translate(0px, 0px) rotate(0deg);
+    /* animation: album-move infinite 120s */
+}
+
+@keyframes album-move {
+    0% {
+        transform: scale(8) translate(-200px, 0px) rotate(0deg);
+    }
+    50% {
+        transform: scale(8) translate(300px, 100px) rotate(90deg);
+    }
+    100% {
+        transform: scale(8) translate(-200px, 0px) rotate(0deg);
+    }
+}

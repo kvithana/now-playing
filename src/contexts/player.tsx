@@ -100,11 +100,19 @@ export const PlayerProvider = ({ children }: { children: React.ReactNode }): JSX
   useEffect(() => {
     if (isPlaying && trackAnalysis && _currentSeek) {
       //   console.log(_currentSeek);
+      // const currentFeatures: TrackAudioAnalysis = {
+      //   bars: trackAnalysis.bars.filter((b) => b.start <= _currentSeek && _currentSeek <= b.start + b.duration),
+      //   beats: trackAnalysis.beats.filter((b) => b.start <= _currentSeek && _currentSeek <= b.start + b.duration),
+      //   sections: trackAnalysis.sections.filter((b) => b.start <= _currentSeek && _currentSeek <= b.start + b.duration),
+      //   segments: trackAnalysis.segments.filter((b) => b.start <= _currentSeek && _currentSeek <= b.start + b.duration),
+      //   tatums: [], // remove for optimisation
+      //   track: trackAnalysis.track as AnalysisTrackItem,
+      // }
       const currentFeatures: TrackAudioAnalysis = {
-        bars: trackAnalysis.bars.filter((b) => b.start <= _currentSeek && _currentSeek <= b.start + b.duration),
-        beats: trackAnalysis.beats.filter((b) => b.start <= _currentSeek && _currentSeek <= b.start + b.duration),
+        bars: [],
+        beats: [],
         sections: trackAnalysis.sections.filter((b) => b.start <= _currentSeek && _currentSeek <= b.start + b.duration),
-        segments: trackAnalysis.segments.filter((b) => b.start <= _currentSeek && _currentSeek <= b.start + b.duration),
+        segments: [],
         tatums: [], // remove for optimisation
         track: trackAnalysis.track as AnalysisTrackItem,
       }

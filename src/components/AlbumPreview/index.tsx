@@ -41,10 +41,11 @@ const AlbumPreview = ({
   }, [imageURL])
 
   return (
-    <div className="absolute flex-row">
+    <div className="absolute flex-row z-50">
       <AnimatePresence exitBeforeEnter={true}>
         {display ? (
           <motion.div
+            key={imageURL}
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{
               y: '0%',

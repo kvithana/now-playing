@@ -9,6 +9,8 @@ import { useHistory } from 'react-router-dom'
 import AlbumPreview from '../AlbumPreview'
 import TrackInfo from '../TrackInfo'
 import Footer from '../RightFooter'
+import Seek from '../Seek'
+import FloatingAlbum from '../FloatingAlbum'
 
 const Home = (): JSX.Element => {
   const { currentTrack, meanLoudness, currentFeatures, currentSeek, meanLoudnessDelta } = useContext(PlayerContext)
@@ -68,6 +70,7 @@ const Home = (): JSX.Element => {
   useEffect(() => {
     if (currentTrack) {
       if (currentTrack.album.images[0].url !== swatchImageURL) {
+        setSwap(false)
         setSwatchImageURL(currentTrack.album.images[0].url)
       }
     }
@@ -214,11 +217,23 @@ const Home = (): JSX.Element => {
                 transform: swap ? 'scale(1.5)' : 'scale(1)',
                 textAlign: 'center',
               }}
+              className="text-2xl bg-opacity-50"
             >
-              Connected to Spotify 🎵
+              Play ▶
             </p>
           </motion.div>
         )}
+        <AnimatePresence exitBeforeEnter={true}>
+          {currentTrack && currentSeek ? (
+            <Seek
+              currentSeek={currentSeek}
+              endSeek={currentTrack.duration_ms / 1e3}
+              swap={swap}
+              altBackgroundColor={altBackgroundColor}
+              textColor={textColor}
+            />
+          ) : null}
+        </AnimatePresence>
         <AnimatePresence exitBeforeEnter={true}>
           {currentTrack ? (
             <AlbumPreview
@@ -228,6 +243,9 @@ const Home = (): JSX.Element => {
               textColor={textColor}
             />
           ) : null}
+        </AnimatePresence>
+        <AnimatePresence exitBeforeEnter={true}>
+          {swatchImageURL ? <FloatingAlbum image={swatchImageURL} /> : null}
         </AnimatePresence>
         <AnimatePresence exitBeforeEnter={true}>
           {currentTrack ? (
