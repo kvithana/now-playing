@@ -3,7 +3,7 @@ import React from 'react'
 import './styles.css'
 
 const transition = {
-  duration: 2,
+  duration: 5,
   ease: [0.43, 0.13, 0.23, 0.96],
 }
 
@@ -14,7 +14,7 @@ const FloatingAlbum = ({ image }: { image: string }): React.ReactElement => {
       <motion.div
         key={image}
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1, transition }}
+        animate={{ opacity: 0.3, transition }}
         exit={{ opacity: 0, transition }}
         className="absolute flex items-center justify-center w-screen h-screen floating-album"
       >

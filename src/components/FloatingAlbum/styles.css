@@ -3,9 +3,10 @@
 }
 
 .floating-album img {
-    opacity: 0.2;
+    opacity: 1;
     filter: blur(20px);
     transform: scale(8) translate(0px, 0px) rotate(0deg);
+    overflow: hidden;
     /* animation: album-move infinite 120s */
 }
 
