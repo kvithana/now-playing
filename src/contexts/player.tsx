@@ -38,6 +38,9 @@ export const PlayerProvider = ({ children }: { children: React.ReactNode }): JSX
   useEffect(() => {
     if (loggedIn) {
       spotify.setAccessToken(accessToken)
+    } else {
+      setCurrentTrack(null)
+      setIsPlaying(false)
     }
   }, [accessToken, loggedIn])
 

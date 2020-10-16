@@ -35,10 +35,7 @@ const Footer = ({ color }: { color: string }): JSX.Element => {
   }, [featuresExist])
 
   return (
-    <div
-      className="absolute flex items-center justify-center z-50"
-      style={{ right: '15px', bottom: '15px', color: color }}
-    >
+    <div className="absolute flex items-center right-0 bottom-0 p-4 px-5 justify-center z-50" style={{ color: color }}>
       <AnimatePresence>
         {currentUser && loading ? (
           <motion.div

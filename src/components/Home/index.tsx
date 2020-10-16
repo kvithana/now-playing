@@ -12,6 +12,7 @@ import Footer from '../RightFooter'
 import Seek from '../Seek'
 import FloatingAlbum from '../FloatingAlbum'
 import Paused from '../Paused'
+import FSButton from '../FullScreenButton'
 
 const Home = (): JSX.Element => {
   const { currentTrack, meanLoudness, currentFeatures, currentSeek, isPlaying } = useContext(PlayerContext)
@@ -236,6 +237,12 @@ const Home = (): JSX.Element => {
             />
           ) : null}
         </AnimatePresence>
+        <AnimatePresence exitBeforeEnter={true}>
+          {isPlaying ? (
+            <FSButton swap={swap || !isPlaying} altBackgroundColor={altBackgroundColor} textColor={textColor} />
+          ) : null}
+        </AnimatePresence>
+
         <Footer color={swap ? backgroundColor : textColor} />
       </div>
     </div>

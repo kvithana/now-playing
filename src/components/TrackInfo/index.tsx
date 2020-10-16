@@ -66,11 +66,11 @@ const TrackInfo = ({
   }, [imageURL])
 
   return (
-    <div className="absolute flex-row z-50 cursor-default select-none" style={{ bottom: '10px', left: '10px' }}>
+    <div className="absolute flex-row z-50 cursor-default select-none bottom-0 left-0 p-3 px-5">
       <AnimatePresence exitBeforeEnter={true}>
         {hide ? null : display ? (
           <motion.div
-            key="1"
+            key={currentTrack.album.name}
             initial={{ opacity: 0, x: '-150%' }}
             animate={{
               x: '0%',
@@ -83,13 +83,13 @@ const TrackInfo = ({
               color: swap ? altBackgroundColor : textColor,
             }}
           >
-            <span className="font-bold text-3xl" style={{ transition: '1s' }}>
+            <span className="font-semibold text-3xl" style={{ transition: '1s' }}>
               {currentTrack.album.name}
             </span>
           </motion.div>
         ) : (
           <motion.div
-            key="2"
+            key={currentTrack.name}
             initial={{ opacity: 0, x: '-150%' }}
             animate={{
               x: '0%',
