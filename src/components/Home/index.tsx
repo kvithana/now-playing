@@ -75,6 +75,12 @@ const Home = (): JSX.Element => {
         setSwap(false)
         setSwatchImageURL(currentTrack.album.images[0].url)
       }
+    } else {
+      setSwap(false)
+      setTextColor(Color('black').hex())
+      setAltTextColor(Color('black').hex())
+      setAltBackgroundColor(Color('white').hex())
+      setBackgroundColor(Color('white').hex())
     }
   }, [currentTrack])
 
