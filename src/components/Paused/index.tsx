@@ -30,7 +30,7 @@ const Paused = ({ altBackgroundColor, textColor }: { altBackgroundColor: string;
         <div className="w-10 h-40" style={{ backgroundColor: altBackgroundColor }} />
         <div className="w-10 h-40 ml-12" style={{ backgroundColor: altBackgroundColor }} />
       </div>
-      <div className="absolute top-0 right-0 p-3 px-5">
+      <div className="absolute top-0 right-0 p-5 px-5">
         <button
           onClick={handleEndSession}
           className="text-xl bg-white text-black p-1 px-2 rounded-md hover:opacity-100 opacity-50"
