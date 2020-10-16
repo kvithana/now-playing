@@ -66,37 +66,37 @@ const TrackInfo = ({
   }, [imageURL])
 
   return (
-    <div className="absolute flex-row z-50 cursor-default select-none bottom-0 left-0 p-3 px-5">
+    <div className="absolute flex-row opacity-75 z-50 cursor-default select-none px-5 p-3 bottom-0 left-0">
       <AnimatePresence exitBeforeEnter={true}>
         {hide ? null : display ? (
           <motion.div
-            key={currentTrack.album.name}
-            initial={{ opacity: 0, x: '-150%' }}
+            key={currentTrack.album.id}
+            initial={{ opacity: 0, x: '-100%' }}
             animate={{
               x: '0%',
-              opacity: 50,
+              opacity: [0, 1],
               transition,
             }}
-            exit={{ x: '-150%', opacity: 0, transition }}
-            className="rounded-md"
+            exit={{ x: '-100%', opacity: 0, transition }}
+            className="rounded-md text-3xl"
             style={{
               color: swap ? altBackgroundColor : textColor,
             }}
           >
-            <span className="font-semibold text-3xl" style={{ transition: '1s' }}>
+            <span className="font-semibold" style={{ transition: '1s' }}>
               {currentTrack.album.name}
             </span>
           </motion.div>
         ) : (
           <motion.div
-            key={currentTrack.name}
-            initial={{ opacity: 0, x: '-150%' }}
+            key={currentTrack.id}
+            initial={{ opacity: 0, x: '-100%' }}
             animate={{
               x: '0%',
-              opacity: 50,
+              opacity: [0, 1],
               transition,
             }}
-            exit={{ x: '-150%', opacity: 0, transition }}
+            exit={{ x: '-100%', opacity: 0, transition }}
             className="text-3xl"
             style={{
               color: swap ? altBackgroundColor : textColor,
