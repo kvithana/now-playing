@@ -66,10 +66,7 @@ const TrackInfo = ({
   }, [imageURL])
 
   return (
-    <div
-      className="absolute flex-row opacity-50 z-50 cursor-default select-none"
-      style={{ bottom: '10px', left: '10px' }}
-    >
+    <div className="absolute flex-row z-50 cursor-default select-none" style={{ bottom: '10px', left: '10px' }}>
       <AnimatePresence exitBeforeEnter={true}>
         {hide ? null : display ? (
           <motion.div
@@ -81,12 +78,12 @@ const TrackInfo = ({
               transition,
             }}
             exit={{ x: '-150%', opacity: 0, transition }}
-            className="rounded-md opacity-50"
+            className="rounded-md"
             style={{
               color: swap ? altBackgroundColor : textColor,
             }}
           >
-            <span className="font-bold" style={{ transition: '1s' }}>
+            <span className="font-bold text-3xl" style={{ transition: '1s' }}>
               {currentTrack.album.name}
             </span>
           </motion.div>
@@ -100,7 +97,7 @@ const TrackInfo = ({
               transition,
             }}
             exit={{ x: '-150%', opacity: 0, transition }}
-            className="text-3xl opacity-50"
+            className="text-3xl"
             style={{
               color: swap ? altBackgroundColor : textColor,
             }}

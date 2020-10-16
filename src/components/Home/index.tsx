@@ -11,9 +11,10 @@ import TrackInfo from '../TrackInfo'
 import Footer from '../RightFooter'
 import Seek from '../Seek'
 import FloatingAlbum from '../FloatingAlbum'
+import Paused from '../Paused'
 
 const Home = (): JSX.Element => {
-  const { currentTrack, meanLoudness, currentFeatures, currentSeek, meanLoudnessDelta } = useContext(PlayerContext)
+  const { currentTrack, meanLoudness, currentFeatures, currentSeek, isPlaying } = useContext(PlayerContext)
 
   const { currentUser } = useContext(AuthContext)
   const history = useHistory()
@@ -198,37 +199,12 @@ const Home = (): JSX.Element => {
         style={{ backgroundColor: swap ? altTextColor : backgroundColor, transition: '5s' }}
         className="w-full h-full flex flex-column justify-center items-center"
       >
-        {currentTrack ? null : (
-          <motion.div
-            key="null"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{
-              y: '0%',
-              opacity: 1,
-              transition,
-            }}
-            exit={{ y: '10%', opacity: 0, transition }}
-          >
-            <p
-              style={{
-                fontSize: '1em',
-                color: swap ? backgroundColor : textColor,
-                transition: '5s',
-                transform: swap ? 'scale(1.5)' : 'scale(1)',
-                textAlign: 'center',
-              }}
-              className="text-2xl bg-opacity-50"
-            >
-              Play Something ▶
-            </p>
-          </motion.div>
-        )}
         <AnimatePresence exitBeforeEnter={true}>
           {currentTrack && currentSeek ? (
             <Seek
               currentSeek={currentSeek}
               endSeek={currentTrack.duration_ms / 1e3}
-              swap={swap}
+              swap={swap || !isPlaying}
               altBackgroundColor={altBackgroundColor}
               textColor={textColor}
             />
@@ -245,13 +221,16 @@ const Home = (): JSX.Element => {
           ) : null}
         </AnimatePresence>
         <AnimatePresence exitBeforeEnter={true}>
+          {!isPlaying ? <Paused altBackgroundColor={altBackgroundColor} textColor={textColor} /> : null}
+        </AnimatePresence>
+        <AnimatePresence exitBeforeEnter={true}>
           {swatchImageURL ? <FloatingAlbum image={swatchImageURL} /> : null}
         </AnimatePresence>
         <AnimatePresence exitBeforeEnter={true}>
           {currentTrack ? (
             <TrackInfo
               currentTrack={currentTrack}
-              swap={swap}
+              swap={swap || !isPlaying}
               altBackgroundColor={altBackgroundColor}
               textColor={textColor}
             />

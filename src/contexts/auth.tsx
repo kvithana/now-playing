@@ -12,12 +12,14 @@ export const AuthContext = React.createContext<{
   currentUser: string | null
   accessToken: string | null
   checkLoginStatus: () => void | null
+  endSession: () => void | null
 }>({
   currentUser: null,
   loading: false,
   loggedIn: false,
   accessToken: null,
   checkLoginStatus: () => null,
+  endSession: () => null,
 })
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
@@ -45,11 +47,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
       const loginStatus = JSON.parse(statusDataStr) as LoginStatus
       // check if login was over 7 days ago
       if (new Date().getUTCMinutes() - new Date(loginStatus.loggedInAt).getTime() / 1e3 / 60 / 60 > 24 * 7) {
-        logger('log in status too old, deleted.')
-        setloading(false)
-        setLoggedIn(false)
-        setCurrentUser(null)
-        localStorage.removeItem('userStatus')
+        endSession()
         return
       }
       // load previous login state
@@ -114,6 +112,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
     _checkAccessToken()
   }, [accessToken])
 
+  const endSession = () => {
+    setloading(false)
+    setLoggedIn(false)
+    setCurrentUser(null)
+    localStorage.removeItem('userStatus')
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -122,6 +127,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
         loggedIn,
         accessToken,
         checkLoginStatus: checkLoginStatusFromLocalStorage,
+        endSession,
       }}
     >
       {children}

@@ -16,8 +16,9 @@ const FloatingAlbum = ({ image }: { image: string }): React.ReactElement => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.25, transition }}
         exit={{ opacity: 0, transition }}
-        className="absolute flex items-center justify-center w-screen h-screen floating-album"
+        className="absolute flex items-center justify-center w-screen h-screen floating-album select-none"
       >
+        <div className="absolute w-screen h-screen" />
         <img src={image} />
       </motion.div>
     </AnimatePresence>

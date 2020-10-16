@@ -3,9 +3,11 @@
 }
 
 .floating-album img {
+    height: 100vh;
+    width: auto;
     opacity: 1;
-    filter: blur(20px);
-    transform: scale(8) translate(0px, 0px) rotate(0deg);
+    filter: blur(30px);
+    transform: scale(3) translate(0px, 0px) rotate(0deg);
     overflow: hidden;
     /* animation: album-move infinite 120s */
 }

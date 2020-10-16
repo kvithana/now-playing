@@ -9,12 +9,14 @@ export const PlayerContext = React.createContext<{
   meanLoudness: number | null
   currentSeek: number | null
   meanLoudnessDelta: number | null
+  isPlaying: boolean
 }>({
   currentTrack: null,
   currentFeatures: null,
   meanLoudness: null,
   currentSeek: null,
   meanLoudnessDelta: null,
+  isPlaying: false,
 })
 
 const spotify = new Spotify()
@@ -145,6 +147,7 @@ export const PlayerProvider = ({ children }: { children: React.ReactNode }): JSX
         meanLoudness,
         currentSeek,
         meanLoudnessDelta,
+        isPlaying,
       }}
     >
       {children}
