@@ -54,7 +54,7 @@ const FSButton = ({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1, transition: { ...transition, delay: 1 } }}
         exit={{ opacity: 0, transition }}
-        className="absolute z-50 top-0 right-0 p-3 px-5"
+        className="absolute z-50 top-0 right-0 p-5 px-5"
       >
         <button
           onClick={toggleFS}
