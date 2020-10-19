@@ -13,6 +13,7 @@ import Seek from '../Seek'
 import FloatingAlbum from '../FloatingAlbum'
 import Paused from '../Paused'
 import FSButton from '../FullScreenButton'
+import useWindowSize from '../../hooks/useWindowSize'
 
 const Home = (): JSX.Element => {
   const { currentTrack, meanLoudness, currentFeatures, currentSeek, isPlaying } = useContext(PlayerContext)
@@ -24,6 +25,7 @@ const Home = (): JSX.Element => {
   const [textColor, setTextColor] = useState('black')
   const [altTextColor, setAltTextColor] = useState('black')
   const [altBackgroundColor, setAltBackgroundColor] = useState('white')
+  const { width } = useWindowSize()
 
   const [swap, setSwap] = useState(false)
 
@@ -153,15 +155,22 @@ const Home = (): JSX.Element => {
           >
             <div className="text-center p-5" style={{ maxWidth: '500px' }}>
               <p className="mb-5">
-                This is a simple web-app to visualise your currently playing track on Spotify with pretty colours based
-                off the album images.
+                Now Playing is a simple web-app to visualise your currently playing track on Spotify with pretty colours
+                based off the album images.
               </p>
               <p className="mb-5">It&apos;s a nice screensaver to have up at a party or while studying 🤓.</p>
               <p className="">Designed for Tablet or Desktop 💻.</p>
             </div>
-            <button onClick={onLoginClick} className="spotify-button">
-              Connect Spotify
-            </button>
+            {width && width > 700 ? (
+              <button onClick={onLoginClick} className="spotify-button">
+                Connect Spotify
+              </button>
+            ) : (
+              <button className="bg-gray-500 px-8 py-4 rounded-full my-8 cursor-not-allowed font-semibold text-white text-lg uppercase tracking-wide">
+                Desktop Device Required
+              </button>
+            )}
+
             <div className="text-center text-gray-500">
               <p className="mb-2">
                 Powered by the{' '}

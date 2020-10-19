@@ -1945,6 +1945,11 @@
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.155.tgz#e2b4514f46a261fd11542e47519c20ebce7bc23a"
   integrity sha512-vEcX7S7aPhsBCivxMwAANQburHBtfN9RdyXFk84IJmu2Z4Hkg1tOFgaslRiEqqvoLtbCBi6ika1EMspE+NZ9Lg==
 
+"@types/lodash@^4.14.53":
+  version "4.14.162"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.162.tgz#65d78c397e0d883f44afbf1f7ba9867022411470"
+  integrity sha512-alvcho1kRUnnD1Gcl4J+hK0eencvzq9rmzvFPRmP5rPHx9VVsJj6bKLTATPVf9ktgv4ujzh7T+XWKp+jhuODig==
+
 "@types/long@^4.0.0", "@types/long@^4.0.1":
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/@types/long/-/long-4.0.1.tgz#459c65fa1867dafe6a8f322c4c51695663cc55e9"
@@ -1967,10 +1972,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.0.13.tgz#ee1128e881b874c371374c1f72201893616417c9"
   integrity sha512-rouEWBImiRaSJsVA+ITTFM6ZxibuAlTuNOCyxVbwreu6k6+ujs7DfnU9o+PShFhET78pMBl3eH+AGSI5eOTkPA==
 
-"@types/node@^10.12.18":
-  version "10.17.39"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.17.39.tgz#ce1122758d0608de8303667cebf171f44192629b"
-  integrity sha512-dJLCxrpQmgyxYGcl0Ae9MTsQgI22qHHcGFj/8VKu7McJA5zQpnuGjoksnxbo1JxSjW/Nahnl13W8MYZf01CZHA==
+"@types/node@^10.11.7":
+  version "10.17.40"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.17.40.tgz#8a50e47daff15fd4a89dc56f5221b3729e506be6"
+  integrity sha512-3hZT2z2/531A5pc8hYhn1gU5Qb1SIRSgMLQ6zuHA5xtt16lWAxUGprtr8lJuc9zNJMXEIIBWfSnzqBP/4mglpA==
 
 "@types/node@^12.0.0":
   version "12.12.47"
@@ -2188,94 +2193,6 @@
     "@types/node" "*"
     ts-node "8.9.1"
     typescript "3.9.3"
-
-"@vibrant/color@^3.2.1-alpha.1":
-  version "3.2.1-alpha.1"
-  resolved "https://registry.yarnpkg.com/@vibrant/color/-/color-3.2.1-alpha.1.tgz#1bcee4545d2276d36f9a1acb42ab3485a9b489ec"
-  integrity sha512-cvm+jAPwao2NerTr3d1JttYyLhp3eD/AQBeevxF7KT6HctToWZCwr2AeTr003/wKgbjzdOV1qySnbyOeu+R+Jw==
-
-"@vibrant/core@^3.2.1-alpha.1":
-  version "3.2.1-alpha.1"
-  resolved "https://registry.yarnpkg.com/@vibrant/core/-/core-3.2.1-alpha.1.tgz#9adff0835b5c750be3386ec01669d2a8d6389fdb"
-  integrity sha512-X9Oa9WfPEQnZ6L+5dLRlh+IlsxJkYTw9b/g3stFKoNXbVRKCeXHmH48l7jIBBOg3VcXOGUdsYBqsTwPNkIveaA==
-  dependencies:
-    "@vibrant/color" "^3.2.1-alpha.1"
-    "@vibrant/generator" "^3.2.1-alpha.1"
-    "@vibrant/image" "^3.2.1-alpha.1"
-    "@vibrant/quantizer" "^3.2.1-alpha.1"
-    "@vibrant/types" "^3.2.1-alpha.1"
-    "@vibrant/worker" "^3.2.1-alpha.1"
-
-"@vibrant/generator-default@^3.2.1-alpha.1":
-  version "3.2.1-alpha.1"
-  resolved "https://registry.yarnpkg.com/@vibrant/generator-default/-/generator-default-3.2.1-alpha.1.tgz#70ae71ea1f72d3e71aa6b244830d01ecae1d755a"
-  integrity sha512-BWnQhDaz92UhyHnpdAzKXHQecY+jvyMXtzjKYbveFxThm6+HVoLjwONlbck7oyOpFzV2OM7V11XuR85BxaHvjw==
-  dependencies:
-    "@vibrant/color" "^3.2.1-alpha.1"
-    "@vibrant/generator" "^3.2.1-alpha.1"
-
-"@vibrant/generator@^3.2.1-alpha.1":
-  version "3.2.1-alpha.1"
-  resolved "https://registry.yarnpkg.com/@vibrant/generator/-/generator-3.2.1-alpha.1.tgz#887b36f7ed978ff94c93cc8a3ac742ce769b6112"
-  integrity sha512-luS5YvMhwMqG01YTj1dJ+cmkuIw1VCByOR6zIaCOwQqI/mcOs88JBWcA1r2TywJTOPlVpjfnDvAlyaKBKh4dMA==
-  dependencies:
-    "@vibrant/color" "^3.2.1-alpha.1"
-    "@vibrant/types" "^3.2.1-alpha.1"
-
-"@vibrant/image-browser@^3.2.1-alpha.1":
-  version "3.2.1-alpha.1"
-  resolved "https://registry.yarnpkg.com/@vibrant/image-browser/-/image-browser-3.2.1-alpha.1.tgz#fe595bfe0c0ddc412300b5419e1e42d8b88d4380"
-  integrity sha512-6xWvQfB20sE6YtCWylgEAHuee3iD8h3aFIDbCS2yj7jIelKcYTrrp5jg2d2BhOOB6pC5JzF+QfpCrm0DmAIlgQ==
-  dependencies:
-    "@vibrant/image" "^3.2.1-alpha.1"
-
-"@vibrant/image-node@^3.2.1-alpha.1":
-  version "3.2.1-alpha.1"
-  resolved "https://registry.yarnpkg.com/@vibrant/image-node/-/image-node-3.2.1-alpha.1.tgz#2901e09aee05d64ac9e792a951ee0727299ab80f"
-  integrity sha512-/Io/Rpo4EkO6AhaXdcxUXkbOFhSFtjm0LSAM4c0AyGA5EbC8PyZqjk8b11bQAEMCaYaweFQfTdGD7oVbXe21CQ==
-  dependencies:
-    "@jimp/custom" "^0.16.1"
-    "@jimp/plugin-resize" "^0.16.1"
-    "@jimp/types" "^0.16.1"
-    "@vibrant/image" "^3.2.1-alpha.1"
-
-"@vibrant/image@^3.2.1-alpha.1":
-  version "3.2.1-alpha.1"
-  resolved "https://registry.yarnpkg.com/@vibrant/image/-/image-3.2.1-alpha.1.tgz#8bcde820f5ad873e2e96b00479def80f86e925a5"
-  integrity sha512-4aF5k79QfyhZOqRovJpbnIjWfe3uuWhY8voqVdd4/qgu4o70/AwVlM+pYmCaJVzI45VWNWWHYA5QlYuKsXnBqQ==
-  dependencies:
-    "@vibrant/color" "^3.2.1-alpha.1"
-    "@vibrant/types" "^3.2.1-alpha.1"
-
-"@vibrant/quantizer-mmcq@^3.2.1-alpha.1":
-  version "3.2.1-alpha.1"
-  resolved "https://registry.yarnpkg.com/@vibrant/quantizer-mmcq/-/quantizer-mmcq-3.2.1-alpha.1.tgz#b36ecb48f4bff9ea35ed23389d8af79c079c079a"
-  integrity sha512-Wuk9PTZtxr8qsWTcgP6lcrrmrq36syVwxf+BUxdgQYntBcQ053SaN34lVGOJ0WPdK5vABoxbYljhceCgiILtZw==
-  dependencies:
-    "@vibrant/color" "^3.2.1-alpha.1"
-    "@vibrant/image" "^3.2.1-alpha.1"
-    "@vibrant/quantizer" "^3.2.1-alpha.1"
-
-"@vibrant/quantizer@^3.2.1-alpha.1":
-  version "3.2.1-alpha.1"
-  resolved "https://registry.yarnpkg.com/@vibrant/quantizer/-/quantizer-3.2.1-alpha.1.tgz#8d29e288ea7acbcd0c9ab8c6b86f80adce606210"
-  integrity sha512-iHnPx/+n4iLtYLm1GClSfyg2fFbMatFG0ipCyp9M6tXNIPAg+pSvUJSGBnVnH7Nl/bR8Gkkj1h0pJ4RsKcdIrQ==
-  dependencies:
-    "@vibrant/color" "^3.2.1-alpha.1"
-    "@vibrant/image" "^3.2.1-alpha.1"
-    "@vibrant/types" "^3.2.1-alpha.1"
-
-"@vibrant/types@^3.2.1-alpha.1":
-  version "3.2.1-alpha.1"
-  resolved "https://registry.yarnpkg.com/@vibrant/types/-/types-3.2.1-alpha.1.tgz#54ecf8b4d1045af699bfaf592e455079801bc951"
-  integrity sha512-ts9u7nsrENoYI5s0MmPOeY5kCLFKvQndKVDOPFCbTA0z493uhDp8mpiQhjFYTf3kPbS04z9zbHLE2luFC7x4KQ==
-
-"@vibrant/worker@^3.2.1-alpha.1":
-  version "3.2.1-alpha.1"
-  resolved "https://registry.yarnpkg.com/@vibrant/worker/-/worker-3.2.1-alpha.1.tgz#d09e4ec72902d36b9632c2c0aab855747acf1015"
-  integrity sha512-mtSlBdHkFNr4FOnMtqtHJxy9z5AsUcZzGlpiHzvWOoaoN9lNTDPwxOBd0q4VTYWuGPrIm6Fuq5m7aRbLv7KqiQ==
-  dependencies:
-    "@vibrant/types" "^3.2.1-alpha.1"
 
 "@webassemblyjs/ast@1.8.5":
   version "1.8.5"
@@ -8119,6 +8036,11 @@ lodash.uniq@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
   integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
 
+lodash@^4.17.20:
+  version "4.17.20"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
+  integrity sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA==
+
 log-symbols@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/log-symbols/-/log-symbols-2.2.0.tgz#5740e1c5d6f0dfda4ad9323b5332107ef6b4c40a"
@@ -8685,17 +8607,17 @@ node-releases@^1.1.52, node-releases@^1.1.53:
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.58.tgz#8ee20eef30fa60e52755fcc0942def5a734fe935"
   integrity sha512-NxBudgVKiRh/2aPWMgPR7bPTX0VPmGx5QBwCtdHitnqFE5/O8DeBXuIMH1nwNnw/aMo6AjOrpsHzfY3UbUJ7yg==
 
-node-vibrant@^3.2.1-alpha.1:
-  version "3.2.1-alpha.1"
-  resolved "https://registry.yarnpkg.com/node-vibrant/-/node-vibrant-3.2.1-alpha.1.tgz#d80a3dd22741150b804ae0d3eb99ceaf9f79980a"
-  integrity sha512-EQergCp7fvbvUCE0VMCBnvaAV0lGWSP8SXLmuWQIBzQK5M5pIwcd9fIOXuzFkJx/8hUiiiLvAzzGDS/bIy2ikA==
+node-vibrant@^3.1.5:
+  version "3.1.6"
+  resolved "https://registry.yarnpkg.com/node-vibrant/-/node-vibrant-3.1.6.tgz#8554c3108903232cbe1e722f928469ee4379aa18"
+  integrity sha512-Wlc/hQmBMOu6xon12ZJHS2N3M+I6J8DhrD3Yo6m5175v8sFkVIN+UjhKVRcO+fqvre89ASTpmiFEP3nPO13SwA==
   dependencies:
-    "@types/node" "^10.12.18"
-    "@vibrant/core" "^3.2.1-alpha.1"
-    "@vibrant/generator-default" "^3.2.1-alpha.1"
-    "@vibrant/image-browser" "^3.2.1-alpha.1"
-    "@vibrant/image-node" "^3.2.1-alpha.1"
-    "@vibrant/quantizer-mmcq" "^3.2.1-alpha.1"
+    "@jimp/custom" "^0.16.1"
+    "@jimp/plugin-resize" "^0.16.1"
+    "@jimp/types" "^0.16.1"
+    "@types/lodash" "^4.14.53"
+    "@types/node" "^10.11.7"
+    lodash "^4.17.20"
     url "^0.11.0"
 
 normalize-package-data@^2.3.2:

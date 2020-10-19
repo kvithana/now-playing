@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext, useRef } from 'react'
 import Spotify from 'spotify-web-api-js'
 import { AuthContext } from './auth'
 import { analyseChoruses } from '../libs/SpotifyChorusAnalysis'
+import ReactGA from 'react-ga'
 
 export const PlayerContext = React.createContext<{
   currentTrack: SpotifyApi.TrackObjectFull | null
@@ -43,6 +44,19 @@ export const PlayerProvider = ({ children }: { children: React.ReactNode }): JSX
       setIsPlaying(false)
     }
   }, [accessToken, loggedIn])
+
+  useEffect(() => {
+    if (isPlaying) {
+      const ref = setInterval(() => {
+        ReactGA.event({
+          category: 'Listen',
+          action: 'Currently listening',
+        })
+      }, 30e3)
+
+      return () => clearInterval(ref)
+    }
+  }, [isPlaying])
 
   useEffect(() => {
     if (loggedIn) {
